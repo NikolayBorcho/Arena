@@ -48,7 +48,7 @@ void MainLoop_Init()
 	Font_Init();
 	
 	// cache meshes
-	LoadMesh3DS("data/models/porche.msh",true);
+	LoadMesh3DS("models/porche.3DS",true);
 	LoadMesh3DS("models/evo.3DS",true);
 	LoadMesh3DS("models/dodge.3DS",true);
 	LoadMesh3DS("models/four.3DS",true);
@@ -101,6 +101,7 @@ void MainLoop_InitMode()
 		Level_Start( Frontend_GetLevel() );
 		pTestCar = Player_Create(false, Frontend_GetCar( ) );
 		Camera_TargetObject((Object*)pTestCar->pCar);
+		Mainloop_Pause(false);	// NIK
 		break;
 
 	case MODE_FRONTEND:
@@ -130,7 +131,10 @@ bool MainLoop_Update()
 		Object_Update();
 		Camera_Update();
 		TrashCan_Update();
-			
+		if (bPaused)
+		{
+			MainLoop_UpdatePauseMenu();
+		}
 		break;
 
 	case MODE_FRONTEND:
@@ -153,6 +157,10 @@ void MainLoop_Render()
 		// NIK: Added display of current ammo in-game
 		SetFont(FONT_LEFT,pDebugFont);
 		PrintString(20.0f, 50.0f, 0xffffffff, 1.0f, "Ammo: %i", pTestCar->pCar->iAmmo);
+		if (bPaused)
+		{
+			MainLoop_RenderPauseMenu();
+		}
 		break;
 
 	case MODE_FRONTEND:
@@ -207,7 +215,7 @@ void MainLoop_UpdatePauseMenu()
 
 void MainLoop_RenderPauseMenu()
 {
-	/*u8 fade = 200;
+	u8 fade = 200;
 
 	GL_Ortho(SWIDTH,SHEIGHT);
 
@@ -221,7 +229,7 @@ void MainLoop_RenderPauseMenu()
 
 	GL_PrimitiveStart(PRIM_TYPE_QUADLIST, RENDER_COLOUR);
 
-	GL_Quad(320 - 90, 240 - 60, 0.f, 180, 120, GL_ARGB(fade, 0, 0, 0));
+	GL_Quad(320 - 90, 240 - 60, 0.f, 180, 120, GL_ARGB(fade, u8(0), u8(0), u8(0)));	// NIK: fixed overload ambiguity
 
 	GL_RenderPrimitives();
 
@@ -243,7 +251,7 @@ void MainLoop_RenderPauseMenu()
 
 	glEnable(GL_DEPTH_TEST);
 
-	GL_Projection(SWIDTH,SHEIGHT);*/
+	GL_Projection(SWIDTH,SHEIGHT);
 }
 
 //------------------------------------------------------------------

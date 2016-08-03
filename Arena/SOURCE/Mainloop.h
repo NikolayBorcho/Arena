@@ -12,7 +12,7 @@ enum MAIN_MODE
 {
 	MODE_NONE,
 	MODE_FRONTEND=1,
-	MODE_GAME,
+	MODE_GAME
 };
 
 void MainLoop_Init();
