@@ -128,10 +128,20 @@ bool MainLoop_Update()
 	switch(iMode)
 	{
 	case MODE_GAME:
-		Object_Update();
-		Camera_Update();
-		TrashCan_Update();
-		if (bPaused)
+		// NIK: paused and unpaused state within the game mode
+		// this could be done with a separate MODE_STATE as well
+		if (!bPaused)
+		{
+			Object_Update();
+			Camera_Update();
+			TrashCan_Update();
+			// switch to pause state
+			if (Input_ButtonClicked(BUTTON_SPACE))
+			{
+				Mainloop_Pause(true);
+			}
+		}
+		else if (bPaused)
 		{
 			MainLoop_UpdatePauseMenu();
 		}
@@ -152,12 +162,16 @@ void MainLoop_Render()
 	switch(iMode)
 	{
 	case MODE_GAME:
-		Camera_Render();
-		Object_Render();
-		// NIK: Added display of current ammo in-game
-		SetFont(FONT_LEFT,pDebugFont);
-		PrintString(20.0f, 50.0f, 0xffffffff, 1.0f, "Ammo: %i", pTestCar->pCar->iAmmo);
-		if (bPaused)
+		// NIK: paused and unpaused state within the game mode
+		// this could be done with a separate MODE_STATE as well
+		if (!bPaused)
+		{
+			Camera_Render();
+			Object_Render();
+			// NIK: Added display of current ammo in-game
+			Mainloop_RenderHUD();
+		}
+		else if (bPaused)
 		{
 			MainLoop_RenderPauseMenu();
 		}
@@ -209,6 +223,12 @@ void MainLoop_UpdatePauseMenu()
 
 		Mainloop_Pause( false );
 	}
+
+	// NIK: exit pause state when pressed pause button
+	if (Input_ButtonClicked(BUTTON_SPACE))
+	{
+		Mainloop_Pause(false);
+	}
 }
 
 //------------------------------------------------------------------
@@ -259,4 +279,13 @@ void MainLoop_RenderPauseMenu()
 void Mainloop_Pause( bool bPause )
 {
 	bPaused = bPause;
+}
+
+//------------------------------------------------------------------
+
+void Mainloop_RenderHUD()
+{
+	// NIK: Added display of current ammo in-game
+	SetFont(FONT_LEFT,pDebugFont);
+	PrintString(20.0f, 50.0f, 0xffffffff, 1.0f, "Ammo: %i", pTestCar->pCar->iAmmo);
 }

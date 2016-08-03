@@ -21,6 +21,7 @@ bool MainLoop_Update();
 void MainLoop_Render();
 void MainLoop_SetMode(MAIN_MODE iNewMode);
 void Mainloop_Pause( bool bPause );
+void Mainloop_RenderHUD();	// NIK
 
 #endif
 
