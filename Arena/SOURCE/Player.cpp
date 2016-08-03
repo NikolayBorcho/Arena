@@ -45,6 +45,10 @@ void APIENTRY Player_Update(Object *pObject)
 		{
 			Car_Fire(pPlayer->pCar);
 		}
+		if(Input_ButtonHeld(BUTTON_FIRE2))
+		{
+			Car_Fire_Rocket(pPlayer->pCar);
+		}
 
 		if(Input_ButtonHeld(BUTTON_CAMLEFT))
 			Camera_SetLook( CAM_LEFT );

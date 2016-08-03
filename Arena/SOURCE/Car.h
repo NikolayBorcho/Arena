@@ -99,6 +99,7 @@ inline void Car_Rot(Car *pCar, bool bLeft)
 }
 
 void Car_Fire(Car *pCar);
+void Car_Fire_Rocket(Car *pCar);	// NIK: Added separate function for firing rockets
 CarValues* Car_GetVal( u32 uVal );
 
 #endif

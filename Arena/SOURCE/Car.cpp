@@ -321,6 +321,31 @@ void Car_Fire(Car *pCar)
 
 //------------------------------------------------------------------
 
+// NIK: Ability to fire rockets
+// This could instead be done by modifying the Car_Fire function to take a projectile type
+// However, task does not specify how to handle ammo amount and rockets
+void Car_Fire_Rocket(Car *pCar)
+{
+	ASSERT(pCar->pObject.eType==OBJECT_Car, "not a valid car!");
+	
+	//if (pCar->iAmmo > 0)
+	{
+		//pCar->iAmmo--;
+
+		Vec4 offset;
+
+		offset.Set(0.8f, 0.f, 0.f, 1.f);
+
+		Projectile_Create( PROJECTILE_ROCKET, &pCar->pObject, &offset );
+
+		offset.Set(-0.8f, 0.f, 0.f, 1.f);
+
+		Projectile_Create( PROJECTILE_ROCKET, &pCar->pObject, &offset );
+	}
+}
+
+//------------------------------------------------------------------
+
 CarValues* Car_GetVal( u32 uVal )
 {
 	return &CarVals[uVal];
