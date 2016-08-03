@@ -150,6 +150,9 @@ void MainLoop_Render()
 	case MODE_GAME:
 		Camera_Render();
 		Object_Render();
+		// NIK: Added display of current ammo in-game
+		SetFont(FONT_LEFT,pDebugFont);
+		PrintString(20.0f, 50.0f, 0xffffffff, 1.0f, "Ammo: %i", pTestCar->pCar->iAmmo);
 		break;
 
 	case MODE_FRONTEND:

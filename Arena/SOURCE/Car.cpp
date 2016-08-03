@@ -12,10 +12,10 @@
 
 static CarValues CarVals[CAR_MAX]=
 {
-	{"Evo",		600.f,	180.f,	1.f},
-	{"Porche",	600.f,	180.f,	1.f},
-	{"4X4",		600.f,	180.f,	1.f},
-	{"Dodge",	600.f,	180.f,	1.f},
+	{"Evo",		600.f,	180.f,	1.f, 10}, // NIK: added ammo initial values
+	{"Porche",	600.f,	180.f,	1.f, 20},
+	{"4X4",		600.f,	180.f,	1.f, 30},
+	{"Dodge",	600.f,	180.f,	1.f, 40},
 };
 
 void Car_HackWheels( Car *pCar );
@@ -180,29 +180,34 @@ Car* Car_Create( i32 iType )
 
 	switch(iType)
 	{
+	// NIK: added ammo intializations
 	case CAR_PORCHE:
 		pCar->pModel = LoadMesh3DS("data/models/porche.3DS",true);
 		pCar->fMass = CarVals[CAR_PORCHE].fMass;
 		pCar->fPower = CarVals[CAR_PORCHE].fPower;
 		pCar->fAccel = CarVals[CAR_PORCHE].fAccel;
+		pCar->iAmmo = CarVals[CAR_PORCHE].iAmmo;
 		break;
 	case CAR_EVO:
 		pCar->pModel = LoadMesh3DS("data/models/evo.3DS",true);
 		pCar->fMass = CarVals[CAR_EVO].fMass;
 		pCar->fPower = CarVals[CAR_EVO].fPower;
 		pCar->fAccel = CarVals[CAR_EVO].fAccel;
+		pCar->iAmmo = CarVals[CAR_EVO].iAmmo;
 		break;
 	case CAR_DODGE:
 		pCar->pModel = LoadMesh3DS("data/models/dodge.3DS",true);
 		pCar->fMass = CarVals[CAR_DODGE].fMass;
 		pCar->fPower = CarVals[CAR_DODGE].fPower;
 		pCar->fAccel = CarVals[CAR_DODGE].fAccel;
+		pCar->iAmmo = CarVals[CAR_DODGE].iAmmo;
 		break;
 	case CAR_4X4:
 		pCar->pModel = LoadMesh3DS("data/models/four.3DS",true);
 		pCar->fMass = CarVals[CAR_4X4].fMass;
 		pCar->fPower = CarVals[CAR_4X4].fPower;
 		pCar->fAccel = CarVals[CAR_4X4].fAccel;
+		pCar->iAmmo = CarVals[CAR_4X4].iAmmo;
 		break;
 	}
 
@@ -296,15 +301,22 @@ void Car_RenderWheelsEnd(void *pData, Mesh *pThis)
 void Car_Fire(Car *pCar)
 {
 	ASSERT(pCar->pObject.eType==OBJECT_Car, "not a valid car!");
-	Vec4 offset;
+	
+	// NIK: added ammo limit
+	if (pCar->iAmmo > 0)
+	{
+		pCar->iAmmo--;
 
-	offset.Set(0.8f, 0.f, 0.f, 1.f);
+		Vec4 offset;
 
-	Projectile_Create( PROJECTILE_BULLET, &pCar->pObject, &offset );
+		offset.Set(0.8f, 0.f, 0.f, 1.f);
 
-	offset.Set(-0.8f, 0.f, 0.f, 1.f);
+		Projectile_Create( PROJECTILE_BULLET, &pCar->pObject, &offset );
 
-	Projectile_Create( PROJECTILE_BULLET, &pCar->pObject, &offset );
+		offset.Set(-0.8f, 0.f, 0.f, 1.f);
+
+		Projectile_Create( PROJECTILE_BULLET, &pCar->pObject, &offset );
+	}
 }
 
 //------------------------------------------------------------------
