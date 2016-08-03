@@ -45,7 +45,7 @@ void APIENTRY Player_Update(Object *pObject)
 		{
 			Car_Fire(pPlayer->pCar);
 		}
-		if(Input_ButtonHeld(BUTTON_FIRE2))
+		if(Input_ButtonClicked(BUTTON_FIRE2))	// NIK: Clicked instead of held - too many explosions cause too many sprites
 		{
 			Car_Fire_Rocket(pPlayer->pCar);
 		}

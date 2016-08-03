@@ -247,6 +247,7 @@ void Rocket_Update(Object *pObject)
 
 		ColData Data;
 
+		// Get the collision data
 		Collision_GetColData(&Data);
 
 		vecDir = (mat.GetColumn(0)*0.25f);
@@ -255,6 +256,9 @@ void Rocket_Update(Object *pObject)
 
 		vecDir = (mat.GetColumn(1)*0.25f);
 		Trail_AddPoint((Object*)pProjectile->pTrails[1], Data.vecPoint, vecDir);
+
+		// NIK: Create particle effect at collision position
+		Particles_Create( 0, Data.vecPoint );
 	}
 
 	Object_SetMatrix(pObject, &mat);

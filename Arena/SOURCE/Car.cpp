@@ -12,10 +12,10 @@
 
 static CarValues CarVals[CAR_MAX]=
 {
-	{"Evo",		600.f,	180.f,	1.f, 10}, // NIK: added ammo initial values
-	{"Porche",	600.f,	180.f,	1.f, 20},
-	{"4X4",		600.f,	180.f,	1.f, 30},
-	{"Dodge",	600.f,	180.f,	1.f, 40},
+	{"Evo",		600.f,	180.f,	1.f, 100}, // NIK: added ammo initial values
+	{"Porche",	600.f,	180.f,	1.f, 200},
+	{"4X4",		600.f,	180.f,	1.f, 300},
+	{"Dodge",	600.f,	180.f,	1.f, 400},
 };
 
 void Car_HackWheels( Car *pCar );
