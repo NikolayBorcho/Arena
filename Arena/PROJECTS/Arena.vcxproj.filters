@@ -90,6 +90,9 @@
     <ClCompile Include="..\source\TrashCan.cpp">
       <Filter>Source Files\Engine\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\SOURCE\Pickup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Frontend.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SOURCE\Pickup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

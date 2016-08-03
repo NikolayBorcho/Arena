@@ -21,7 +21,8 @@ enum OBJECT_TYPES
 	OBJECT_Collision,
 	OBJECT_Projectile,
 	OBJECT_Sprites,
-	OBJECT_Particle
+	OBJECT_Particle,
+	OBJECT_Pickup
 };
 
 #define OBJ_DISABLED	0x000000001 // not rendered or updated

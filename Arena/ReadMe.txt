@@ -46,3 +46,10 @@ Fix any errors
 Code should compile with no warnings
 
 There are some obvious deliberate bugs in the game which seen/found when running it. These need to found and fixed.
+
+
+Found BUGS:
+	- Too many particle sprites when shooting
+	- Can drive outside the world indefinitely
+	- Once crashed when bumped into a tree (when does this happen?)
+	- Once got stuck inside a house

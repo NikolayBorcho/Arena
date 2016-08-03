@@ -90,6 +90,7 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Car.cpp" />
     <ClCompile Include="..\Source\Mainloop.cpp" />
+    <ClCompile Include="..\SOURCE\Pickup.cpp" />
     <ClCompile Include="..\Source\Player.cpp" />
     <ClCompile Include="..\Source\Projectile.cpp" />
     <ClCompile Include="..\Source\Frontend.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="..\source\object.h" />
     <ClInclude Include="..\source\opengl.h" />
     <ClInclude Include="..\Source\particles.h" />
+    <ClInclude Include="..\SOURCE\Pickup.h" />
     <ClInclude Include="..\Source\Sprite.h" />
     <ClInclude Include="..\source\tgaload.h" />
     <ClInclude Include="..\Source\Trail.h" />

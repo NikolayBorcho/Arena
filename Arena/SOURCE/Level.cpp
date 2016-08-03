@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "Collision.h"
 #include "sprite.h"
+#include "Pickup.h"
 
 #define NUM_HOUSES	400
 #define NUM_TREES	400
