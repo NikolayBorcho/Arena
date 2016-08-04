@@ -50,7 +50,7 @@ void APIENTRY Pickup_Render(Object *pObject)
 
 //------------------------------------------------------------------
 
-Pickup* Pickup_Create( Pickup_TYPES type, Object *pCreator, Vec4 *pvecOffset )
+Pickup* Pickup_Create( Pickup_TYPES type, Vec3 vecPos)
 {
 	Pickup *pPickup;
 	ObjectCreate Create;
@@ -65,15 +65,12 @@ Pickup* Pickup_Create( Pickup_TYPES type, Object *pCreator, Vec4 *pvecOffset )
 	pPickup = (Pickup*)Object_Create(&Create, sizeof(Pickup));
 
 	pPickup->type = type;
-	pPickup->pCreator = pCreator;
 
-	Matrix *pMat;
 	Matrix Mat;
 
-	Object_GetMatrixPtr((Object *)pCreator, &pMat);
+	Mat.Init();
+	Mat.SetColumn(3,vecPos);
 
-	Mat = *pMat;
-	Mat.SetColumn(3, *pMat * (*pvecOffset));
 	Object_SetAllMatrix((Object *)pPickup, &Mat);
 
 	switch(type)
@@ -83,8 +80,8 @@ Pickup* Pickup_Create( Pickup_TYPES type, Object *pCreator, Vec4 *pvecOffset )
 		break;
 	}
 
-	Vec3 vecMax(0.4f, 0.4f, 0.4f);
-	Vec3 vecMin(-0.4f, -0.4f, -0.4f);
+	Vec3 vecMax(0.5f, 0.5f, 0.5f);
+	Vec3 vecMin(-0.5f, -0.5f, -0.5f);
 	pPickup->pBox = Collision_CreateBox(&vecMax, &vecMin, &Mat);
 
 	return pPickup;

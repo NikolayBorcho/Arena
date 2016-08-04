@@ -9,6 +9,7 @@
 #include "trail.h"
 #include "collision.h"
 #include "Projectile.h"
+#include "Pickup.h"	// NIK
 
 static CarValues CarVals[CAR_MAX]=
 {
@@ -128,6 +129,15 @@ void APIENTRY Car_Update(Object *pObject)
 
 			ASSERT(!Level_TestBoxCollide( pCar->pBox ), "still colliding");
 		}
+	}
+
+	// NIK: pickups collide
+	if(Level_TestPickupsCollide( pCar->pBox ) != Pickup_NONE)
+	{
+		ColData Data;
+		Collision_GetColData(&Data);	
+
+		pCar->iAmmo += 10;
 	}
 
 	Object_SetMatrix(pObject, &mat);

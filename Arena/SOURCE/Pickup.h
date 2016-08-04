@@ -11,7 +11,8 @@
 
 enum Pickup_TYPES
 {
-	Pickup_WEAPON_ROCKET = 0,
+	Pickup_NONE = 0,
+	Pickup_WEAPON_ROCKET,
 	Pickup_AMMO,
 };
 
@@ -24,11 +25,10 @@ typedef struct _Pickup
 	Pickup_TYPES type;
 	Vec3	vecPos;
 
-	Object	*pCreator;
 	struct _ColBox *pBox;
 }Pickup;
 
-Pickup* Pickup_Create( Pickup_TYPES type, Object *pCreator, Vec4 *pvecOffset );
+Pickup* Pickup_Create( Pickup_TYPES type, Vec3 vecPos);
 
 #endif
 

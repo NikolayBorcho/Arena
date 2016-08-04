@@ -49,6 +49,10 @@ static bool	bLevelStarted = false;
 
 #define MAX_BOXES_GRID 20
 
+// NIK: pick ups
+#include <vector>
+std::vector<Pickup*> stdvPickups;
+
 typedef struct _GridIndex
 {
 	i32 iStartIndex;
@@ -249,6 +253,9 @@ void APIENTRY Level_Exit(Object *pObject)
 	}
 	iCollBoxes = 0;
 	iLamps = 0;
+
+	// NIK	?????
+	stdvPickups.clear();
 
 	bLevelStarted = false;
 }
@@ -831,6 +838,29 @@ bool Level_TestBoxCollide( ColBox *pBoxThis )
 
 //----------------------------------------------------------------------------------
 
+// NIK
+enum Pickup_TYPES Level_TestPickupsCollide( ColBox *pBoxThis )
+{
+	i32 i;
+	
+	if(!bLevelStarted)
+		return Pickup_NONE;
+
+	for(std::vector<Pickup*>::iterator it=stdvPickups.begin(); it != stdvPickups.end(); ++it)
+	{
+		if(Collision_BoxBoxTest((*it)->pBox,pBoxThis))
+		{
+			TrashCan_DeleteObject( (Object*)(*it) );
+			stdvPickups.erase(it);
+			return Pickup_WEAPON_ROCKET;
+		}
+	}
+
+	return Pickup_NONE;
+}
+
+//----------------------------------------------------------------------------------
+
 static void VertexLight(float *pfCols,Vec4 &VecTemp)
 {
 	int i;
@@ -1221,6 +1251,19 @@ static void DrawRoad(u8 *cL,u8 *cR,u8 *cU,u8 *cD,float fX,float fY)
 		fv2=(512.f-255.f)/512.f;//1.f-(95.f*TEXMUL)/TEXSIZE;
 	}
 
+	// NIK: Generate a Pickup
+	if (rand()%4 == 0)	// not on all roads
+	{
+		Vec3 vecPickupPos;
+		vecPickupPos.Set(fX*4,1.0f,fY*4);	// 4 to scale
+		Pickup* pPickup = Pickup_Create(Pickup_WEAPON_ROCKET, vecPickupPos);
+		stdvPickups.push_back(pPickup);
+		//pCollBoxes[iCollBoxes] = Pickup_Create(Pickup_WEAPON_ROCKET, vecPos, &offset)->pBox;
+		//Level_GridIndexAddBox(&vecPos, pCollBoxes[iCollBoxes]);
+		//iCollBoxes++;
+	}
+	// ---
+
 	vecPos.Set(fX,fY,0);
 	HouseMat.SetColumn(3,vecPos);
 	HouseVertexAdd(-2.f,-2.f,0 ,			fu1,fv1,	1.f,1.f,1.f,1.f);
@@ -1341,7 +1384,6 @@ static void AddLampPost(float fX,float fY)
 	pCollBoxes[iCollBoxes] = Collision_CreateBox(&vecMax, &vecMin, &Mat2);
 
 	Level_GridIndexAddBox(&vecPos, pCollBoxes[iCollBoxes]);
-
 	iCollBoxes++;
 
 	ASSERT(iLamps<(LEVEL_SIZE*LEVEL_SIZE)/3, "adding too many lamp sprites");
@@ -1599,7 +1641,6 @@ static void GenerateLevel(i32 iLevel)
 				vecPos.Set(fX+1.5f,fY+1.5f,0);
 				HouseMat.SetColumn(3,vecPos);
 				AddLampPost(fX,fY);
-
 				GIList[j*LEVEL_SIZE + i].iNumIndex += iMaxIndex - iNewStart;
 			}
 

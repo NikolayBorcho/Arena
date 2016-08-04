@@ -49,15 +49,6 @@ void APIENTRY Player_Update(Object *pObject)
 		if(Input_ButtonClicked(BUTTON_FIRE2))	// NIK: Clicked instead of held - too many explosions cause too many sprites
 		{
 			Car_Fire_Rocket(pPlayer->pCar);
-
-			// NIK: Create a Pickup
-			/*
-			Vec4 offset;
-
-			offset.Set(0.8f, 0.f, 0.f, 1.f);
-
-			Pickup_Create( Pickup_WEAPON_ROCKET, &pPlayer->pCar->pObject, &offset );
-			*/
 		}
 
 		if(Input_ButtonHeld(BUTTON_CAMLEFT))
