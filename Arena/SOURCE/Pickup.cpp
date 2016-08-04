@@ -8,8 +8,8 @@
 #include "level.h"
 #include "collision.h"
 
-static void WeaponRocket_Update(Object *pObject);
-static void WeaponRocket_Render(Object *pObject);
+static void RocketAmmo_Update(Object *pObject);
+static void RocketAmmo_Render(Object *pObject);
 
 //------------------------------------------------------------------
 
@@ -28,8 +28,11 @@ void APIENTRY Pickup_Update(Object *pObject)
 	
 	switch(pPickup->type)
 	{
-	case Pickup_WEAPON_ROCKET:
-		WeaponRocket_Update(pObject);
+	case Pickup_NORMAL_AMMO:
+		NormalAmmo_Update(&pPickup->pObject);
+		break;
+	case Pickup_ROCKET_AMMO:
+		RocketAmmo_Update(&pPickup->pObject);
 		break;
 	}
 }
@@ -42,8 +45,11 @@ void APIENTRY Pickup_Render(Object *pObject)
 
 	switch(pPickup->type)
 	{
-	case Pickup_WEAPON_ROCKET:
-		WeaponRocket_Render(pObject);
+	case Pickup_NORMAL_AMMO:
+		NormalAmmo_Render(&pPickup->pObject);
+		break;
+	case Pickup_ROCKET_AMMO:
+		RocketAmmo_Render(&pPickup->pObject);
 		break;
 	}
 }
@@ -73,13 +79,6 @@ Pickup* Pickup_Create( Pickup_TYPES type, Vec3 vecPos)
 
 	Object_SetAllMatrix((Object *)pPickup, &Mat);
 
-	switch(type)
-	{
-	case Pickup_WEAPON_ROCKET:
-		WeaponRocket_Update(&pPickup->pObject);
-		break;
-	}
-
 	Vec3 vecMax(0.5f, 0.5f, 0.5f);
 	Vec3 vecMin(-0.5f, -0.5f, -0.5f);
 	pPickup->pBox = Collision_CreateBox(&vecMax, &vecMin, &Mat);
@@ -89,36 +88,102 @@ Pickup* Pickup_Create( Pickup_TYPES type, Vec3 vecPos)
 
 //------------------------------------------------------------------
 
-void WeaponRocket_Update(Object *pObject)
+void NormalAmmo_Update(Object *pObject)
 {
 	Pickup *pPickup=(Pickup *)pObject;
-
-	/* // collision with level
-	Pickup *pPickup=(Pickup *)pObject;
-
-	Matrix mat;
-	Matrix *pLast;
-
-	Object_GetMatrix(pObject,&mat);
-	Object_GetMatrixPtrLast(pObject,&pLast);
-
-	if(Level_TestLineCollide( pLast->GetColumn(3), mat.GetColumn(3) ))
-	{
-		ColData Data;
-
-		// Get the collision data
-		Collision_GetColData(&Data);
-
-		// Create particle effect at collision position
-		//Particles_Create( 1, Data.vecPoint );
-	}
-	
-	Object_SetMatrix(pObject, &mat);*/
 }
 
 //------------------------------------------------------------------
 
-void WeaponRocket_Render(Object *pObject)
+void NormalAmmo_Render(Object *pObject)
+{
+	Pickup *pPickup=(Pickup *)pObject;
+
+	Matrix *mat;
+
+	Object_GetInterpMatrix(pObject, &mat);
+
+	glPushMatrix ();
+
+	glMultMatrixf (mat->Getfloat());
+
+	GL_SetTexture(0);
+	GL_RenderMode(RENDER_MODE_ADD);
+	
+	GL_PrimitiveStart(PRIM_TYPE_TRIANGLELIST, RENDER_COLOUR);
+
+	// INDEX Buffer?
+
+	// Left
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffff00ff);
+
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffff00ff);
+
+	// Right
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	
+	// Top
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffff00ff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffff00ff);
+	
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xffff00ff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffff00ff);
+	
+	// Bottom
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
+	
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
+	
+	// Front
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffffffff);
+
+	// Back
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
+	
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffffffff);
+	
+	GL_RenderPrimitives();
+
+	glPopMatrix ();
+}
+
+
+//------------------------------------------------------------------
+
+void RocketAmmo_Update(Object *pObject)
+{
+	Pickup *pPickup=(Pickup *)pObject;
+}
+
+//------------------------------------------------------------------
+
+void RocketAmmo_Render(Object *pObject)
 {
 	Pickup *pPickup=(Pickup *)pObject;
 

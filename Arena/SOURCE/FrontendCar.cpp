@@ -123,11 +123,12 @@ void FrontendCar_Render()
 
 	SetFont(FONT_LEFT,Frontend_GetFont());
 
-	PrintString(fX, fY, 0xffffffff, 0.5f, "Name %s\nMass %0.1f\nPower %0.1f\nAccel %0.1f\nAmmo %i",
+	PrintString(fX, fY, 0xffffffff, 0.5f, "Name %s\nMass %0.1f\nPower %0.1f\nAccel %0.1f\nNormal Ammo %i\nRocket Ammo %i",
 		Car_GetVal(iSelection)->name,
 		Car_GetVal(iSelection)->fMass,
 		Car_GetVal(iSelection)->fPower,
 		Car_GetVal(iSelection)->fAccel,
-		Car_GetVal(iSelection)->iAmmo); // NIK: added ammo display on car select
+		Car_GetVal(iSelection)->iNormalAmmo,
+		Car_GetVal(iSelection)->iRocketAmmo); // NIK: added ammo display on car select
 }
 

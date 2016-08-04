@@ -839,20 +839,30 @@ bool Level_TestBoxCollide( ColBox *pBoxThis )
 //----------------------------------------------------------------------------------
 
 // NIK
-enum Pickup_TYPES Level_TestPickupsCollide( ColBox *pBoxThis )
+enum Pickup_TYPES Level_TestPickupsCollide( _Car *pCarThis )
 {
-	i32 i;
-	
 	if(!bLevelStarted)
 		return Pickup_NONE;
 
 	for(std::vector<Pickup*>::iterator it=stdvPickups.begin(); it != stdvPickups.end(); ++it)
 	{
-		if(Collision_BoxBoxTest((*it)->pBox,pBoxThis))
+		if(Collision_BoxBoxTest((*it)->pBox,pCarThis->pBox))
 		{
+			Pickup_TYPES type = (*it)->type; 
+			switch (type)
+			{
+			case Pickup_NORMAL_AMMO:
+				pCarThis->iNormalAmmo += 10;
+				break;
+			case Pickup_ROCKET_AMMO:
+				pCarThis->iRocketAmmo += 10;
+				break;
+			}
+
+			// erase pickup
 			TrashCan_DeleteObject( (Object*)(*it) );
 			stdvPickups.erase(it);
-			return Pickup_WEAPON_ROCKET;
+			return type;
 		}
 	}
 
@@ -1252,11 +1262,19 @@ static void DrawRoad(u8 *cL,u8 *cR,u8 *cU,u8 *cD,float fX,float fY)
 	}
 
 	// NIK: Generate a Pickup
-	if (rand()%4 == 0)	// not on all roads
+	if (rand()%2 == 0)	// not on all roads
 	{
 		Vec3 vecPickupPos;
 		vecPickupPos.Set(fX*4,1.0f,fY*4);	// 4 to scale
-		Pickup* pPickup = Pickup_Create(Pickup_WEAPON_ROCKET, vecPickupPos);
+		Pickup* pPickup;
+		if (rand()%2 == 0)
+		{
+			pPickup = Pickup_Create(Pickup_NORMAL_AMMO, vecPickupPos);
+		}
+		else
+		{
+			pPickup = Pickup_Create(Pickup_ROCKET_AMMO, vecPickupPos);
+		}
 		stdvPickups.push_back(pPickup);
 		//pCollBoxes[iCollBoxes] = Pickup_Create(Pickup_WEAPON_ROCKET, vecPos, &offset)->pBox;
 		//Level_GridIndexAddBox(&vecPos, pCollBoxes[iCollBoxes]);

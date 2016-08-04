@@ -53,3 +53,4 @@ Found BUGS:
 	- Can drive outside the world indefinitely
 	- Once crashed when bumped into a tree (when does this happen?)
 	- Once got stuck inside a house
+	- Passed through collectible

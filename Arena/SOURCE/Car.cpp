@@ -13,10 +13,10 @@
 
 static CarValues CarVals[CAR_MAX]=
 {
-	{"Evo",		600.f,	180.f,	1.f, 100}, // NIK: added ammo initial values
-	{"Porche",	600.f,	180.f,	1.f, 200},
-	{"4X4",		600.f,	180.f,	1.f, 300},
-	{"Dodge",	600.f,	180.f,	1.f, 400},
+	{"Evo",		600.f,	180.f,	1.f, 100, 0}, // NIK: added ammo initial values
+	{"Porche",	600.f,	180.f,	1.f, 200, 0},
+	{"4X4",		600.f,	180.f,	1.f, 300, 0},
+	{"Dodge",	600.f,	180.f,	1.f, 400, 0},
 };
 
 void Car_HackWheels( Car *pCar );
@@ -55,7 +55,7 @@ void Car_Light(Car *pCar)
 	if(fCol<0.2f)
 		fCol = 0.2f;
 
-	uCol = fCol*255.f;
+	uCol = int(fCol*255.f);
 	for(j=0;j<pModel->iMeshes;j++)
 	{
 		for(i=0;i<pModel->pMesh[j]->iNumVerts;i++)
@@ -132,13 +132,7 @@ void APIENTRY Car_Update(Object *pObject)
 	}
 
 	// NIK: pickups collide
-	if(Level_TestPickupsCollide( pCar->pBox ) != Pickup_NONE)
-	{
-		ColData Data;
-		Collision_GetColData(&Data);	
-
-		pCar->iAmmo += 10;
-	}
+	Level_TestPickupsCollide( pCar );
 
 	Object_SetMatrix(pObject, &mat);
 
@@ -196,28 +190,32 @@ Car* Car_Create( i32 iType )
 		pCar->fMass = CarVals[CAR_PORCHE].fMass;
 		pCar->fPower = CarVals[CAR_PORCHE].fPower;
 		pCar->fAccel = CarVals[CAR_PORCHE].fAccel;
-		pCar->iAmmo = CarVals[CAR_PORCHE].iAmmo;
+		pCar->iNormalAmmo = CarVals[CAR_PORCHE].iNormalAmmo;
+		pCar->iRocketAmmo = CarVals[CAR_PORCHE].iRocketAmmo;
 		break;
 	case CAR_EVO:
 		pCar->pModel = LoadMesh3DS("data/models/evo.3DS",true);
 		pCar->fMass = CarVals[CAR_EVO].fMass;
 		pCar->fPower = CarVals[CAR_EVO].fPower;
 		pCar->fAccel = CarVals[CAR_EVO].fAccel;
-		pCar->iAmmo = CarVals[CAR_EVO].iAmmo;
+		pCar->iNormalAmmo = CarVals[CAR_EVO].iNormalAmmo;
+		pCar->iRocketAmmo = CarVals[CAR_EVO].iRocketAmmo;
 		break;
 	case CAR_DODGE:
 		pCar->pModel = LoadMesh3DS("data/models/dodge.3DS",true);
 		pCar->fMass = CarVals[CAR_DODGE].fMass;
 		pCar->fPower = CarVals[CAR_DODGE].fPower;
 		pCar->fAccel = CarVals[CAR_DODGE].fAccel;
-		pCar->iAmmo = CarVals[CAR_DODGE].iAmmo;
+		pCar->iNormalAmmo = CarVals[CAR_DODGE].iNormalAmmo;
+		pCar->iRocketAmmo = CarVals[CAR_DODGE].iRocketAmmo;
 		break;
 	case CAR_4X4:
 		pCar->pModel = LoadMesh3DS("data/models/four.3DS",true);
 		pCar->fMass = CarVals[CAR_4X4].fMass;
 		pCar->fPower = CarVals[CAR_4X4].fPower;
 		pCar->fAccel = CarVals[CAR_4X4].fAccel;
-		pCar->iAmmo = CarVals[CAR_4X4].iAmmo;
+		pCar->iNormalAmmo = CarVals[CAR_4X4].iNormalAmmo;
+		pCar->iRocketAmmo = CarVals[CAR_4X4].iRocketAmmo;
 		break;
 	}
 
@@ -313,9 +311,9 @@ void Car_Fire(Car *pCar)
 	ASSERT(pCar->pObject.eType==OBJECT_Car, "not a valid car!");
 	
 	// NIK: added ammo limit
-	if (pCar->iAmmo > 0)
+	if (pCar->iNormalAmmo > 0)
 	{
-		pCar->iAmmo--;
+		pCar->iNormalAmmo--;
 
 		Vec4 offset;
 
@@ -338,9 +336,9 @@ void Car_Fire_Rocket(Car *pCar)
 {
 	ASSERT(pCar->pObject.eType==OBJECT_Car, "not a valid car!");
 	
-	//if (pCar->iAmmo > 0)
+	if (pCar->iRocketAmmo > 0)
 	{
-		//pCar->iAmmo--;
+		pCar->iRocketAmmo--;
 
 		Vec4 offset;
 

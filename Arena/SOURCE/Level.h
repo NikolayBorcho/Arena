@@ -9,6 +9,7 @@
 #include "includeall.h"
 #include "object.h"
 #include "tgaload.h"
+#include "Car.h"
 
 typedef struct _level
 {
@@ -26,6 +27,6 @@ Vec3* Level_ClosestLight( Vec3 *pPos );
 bool Level_TestCollide( Vec3 *pPos );
 bool Level_TestLineCollide( Vec4 &VecStart, Vec4 &VecEnd );
 bool Level_TestBoxCollide( struct _ColBox *pBoxThis );
-enum Pickup_TYPES Level_TestPickupsCollide( struct _ColBox *pBoxThis );	// NIK
+enum Pickup_TYPES Level_TestPickupsCollide( struct _Car *pCarThis );	// NIK
 #endif
 
