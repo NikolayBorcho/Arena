@@ -113,60 +113,60 @@ void NormalAmmo_Render(Object *pObject)
 	GL_PrimitiveStart(PRIM_TYPE_TRIANGLELIST, RENDER_COLOUR);
 
 	// INDEX Buffer?
-
+	
 	// Left
-	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffff00ff);
-	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffff00ff);
-	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xff00ffff);
 
-	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffff00ff);
-	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffff00ff);
-	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xff00ffff);
 
 	// Right
-	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
-	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xff00ffff);
 	
-	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, 0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xff00ffff);
 	
 	// Top
-	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffff00ff);
-	GL_Vert(0.4f, 0.4f, -0.4f, 0xffff00ff);
-	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffff00ff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xff00ffff);
 	
-	GL_Vert(0.4f, 0.4f, -0.4f, 0xffff00ff);
-	GL_Vert(0.4f, 0.4f, 0.4f, 0xffff00ff);
-	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffff00ff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xff00ffff);
 	
 	// Bottom
-	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffffffff);
-	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xff00ffff);
 	
-	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
-	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xff00ffff);
 	
 	// Front
-	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffffffff);
-	GL_Vert(0.4f, -0.4f, -0.4f, 0xffffffff);
-	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(0.4f, -0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xff00ffff);
 	
-	GL_Vert(0.4f, 0.4f, -0.4f, 0xffffffff);
-	GL_Vert(-0.4f, 0.4f, -0.4f, 0xffffffff);
-	GL_Vert(-0.4f, -0.4f, -0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, -0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, -0.4f, -0.4f, 0xff00ffff);
 
 	// Back
-	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, 0.4f, 0.4f, 0xffffffff);
-	GL_Vert(0.4f, -0.4f, 0.4f, 0xffffffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(0.4f, -0.4f, 0.4f, 0xff00ffff);
 	
-	GL_Vert(0.4f, 0.4f, 0.4f, 0xffffffff);
-	GL_Vert(-0.4f, -0.4f, 0.4f, 0xffffffff);
-	GL_Vert(-0.4f, 0.4f, 0.4f, 0xffffffff);
+	GL_Vert(0.4f, 0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, -0.4f, 0.4f, 0xff00ffff);
+	GL_Vert(-0.4f, 0.4f, 0.4f, 0xff00ffff);
 	
 	GL_RenderPrimitives();
 
