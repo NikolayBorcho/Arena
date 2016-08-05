@@ -10,6 +10,7 @@
 #include "Camera.h"
 
 #define MAX_PARTICLES 32
+#define MAX_EFFECTS 10	// NIK
 
 typedef struct _Particles
 {
@@ -63,6 +64,7 @@ typedef struct _Particles
 
 static ParticleCreate *pDefs;
 static u32 iNumDefs;
+static i32 iNumEffects = 0;	// NIK
 
 //------------------------------------------------------------------
 
@@ -342,6 +344,7 @@ void APIENTRY Particles_Update(Object *pObject)
 			pParticles->bSpritesFreed=true;
 		}
 		TrashCan_DeleteObject(pObject);
+		iNumEffects--;
 	}
 }
 
@@ -580,6 +583,12 @@ void Particles_Create( ParticleCreate *pCreate )
 
 void Particles_Create( i32 iID, Vec3 &vecPos )
 {
+	// NIK
+	if (iNumEffects < MAX_EFFECTS)
+		iNumEffects++;
+	else
+		return;
+
 	ParticleCreate *pDef;
 	i32 iNumDefs2=iNumDefs;
 	if(iID>(i32)iNumDefs)
