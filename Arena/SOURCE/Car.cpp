@@ -13,10 +13,10 @@
 
 static CarValues CarVals[CAR_MAX]=
 {
-	{"Evo",		600.f,	180.f,	1.f, 100, 0}, // NIK: added ammo initial values
-	{"Porche",	600.f,	180.f,	1.f, 200, 0},
-	{"4X4",		600.f,	180.f,	1.f, 300, 0},
-	{"Dodge",	600.f,	180.f,	1.f, 400, 0},
+	{"Evo",		600.f,	180.f,	1.f, 10, 15}, // NIK: added ammo initial values
+	{"Porche",	600.f,	180.f,	1.f, 20, 10},
+	{"4X4",		600.f,	180.f,	1.f, 30, 5},
+	{"Dodge",	600.f,	180.f,	1.f, 40, 0},
 };
 
 void Car_HackWheels( Car *pCar );
@@ -127,7 +127,14 @@ void APIENTRY Car_Update(Object *pObject)
 
 			Collision_UpdateMat(pCar->pBox, &mat);
 
-			ASSERT(!Level_TestBoxCollide( pCar->pBox ), "still colliding");
+			if (Level_TestBoxCollide( pCar->pBox ))
+			{
+				// still colliding issue
+				pCar->fSpeed = 1.f;
+				break;
+			}
+			
+			//ASSERT(!Level_TestBoxCollide( pCar->pBox ), "still colliding");
 		}
 	}
 

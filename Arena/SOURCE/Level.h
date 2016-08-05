@@ -28,5 +28,6 @@ bool Level_TestCollide( Vec3 *pPos );
 bool Level_TestLineCollide( Vec4 &VecStart, Vec4 &VecEnd );
 bool Level_TestBoxCollide( struct _ColBox *pBoxThis );
 enum Pickup_TYPES Level_TestPickupsCollide( struct _Car *pCarThis );	// NIK
+void Level_AddLevelEdgesCols(); // NIK
 #endif
 

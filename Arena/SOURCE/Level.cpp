@@ -47,7 +47,7 @@ static ColBox *pCollBoxes[LEVEL_BOXES];
 
 static bool	bLevelStarted = false;
 
-#define MAX_BOXES_GRID 20
+#define MAX_BOXES_GRID 40
 
 // NIK: pick ups
 #include <vector>
@@ -848,11 +848,12 @@ enum Pickup_TYPES Level_TestPickupsCollide( _Car *pCarThis )
 	{
 		if(Collision_BoxBoxTest((*it)->pBox,pCarThis->pBox))
 		{
+			// response based on pickup type
 			Pickup_TYPES type = (*it)->type; 
 			switch (type)
 			{
 			case Pickup_NORMAL_AMMO:
-				pCarThis->iNormalAmmo += 10;
+				pCarThis->iNormalAmmo += 20;
 				break;
 			case Pickup_ROCKET_AMMO:
 				pCarThis->iRocketAmmo += 10;
@@ -1265,9 +1266,9 @@ static void DrawRoad(u8 *cL,u8 *cR,u8 *cU,u8 *cD,float fX,float fY)
 	if (rand()%2 == 0)	// not on all roads
 	{
 		Vec3 vecPickupPos;
-		vecPickupPos.Set(fX*4,1.0f,fY*4);	// 4 to scale
+		vecPickupPos.Set(fX*LEVEL_SCALE,1.0f,fY*LEVEL_SCALE);
 		Pickup* pPickup;
-		if (rand()%2 == 0)
+		if (rand()%2 == 0)	// approx half the pickups will be for one of the weapons
 		{
 			pPickup = Pickup_Create(Pickup_NORMAL_AMMO, vecPickupPos);
 		}
@@ -1276,9 +1277,6 @@ static void DrawRoad(u8 *cL,u8 *cR,u8 *cU,u8 *cD,float fX,float fY)
 			pPickup = Pickup_Create(Pickup_ROCKET_AMMO, vecPickupPos);
 		}
 		stdvPickups.push_back(pPickup);
-		//pCollBoxes[iCollBoxes] = Pickup_Create(Pickup_WEAPON_ROCKET, vecPos, &offset)->pBox;
-		//Level_GridIndexAddBox(&vecPos, pCollBoxes[iCollBoxes]);
-		//iCollBoxes++;
 	}
 	// ---
 
@@ -1666,6 +1664,9 @@ static void GenerateLevel(i32 iLevel)
 		}
 	}
 
+	// NIK:
+	Level_AddLevelEdgesCols();
+
 	Level_GridIndexAddSurrounds();
 
 	// rotate everything so y is up
@@ -1826,4 +1827,38 @@ static void GenerateLevel(i32 iLevel)
 	}
 
 	Level_GenerateDraw( &Vec3(3.f,0.f,0.f) );
+}
+
+void Level_AddLevelEdgesCols()
+{
+	// NIK: Add collision boxes around the edges of the level
+	for (int j = -6; j < 6; ++j)
+	{
+		for (int i = -6; i < 6; ++i)
+		{
+			if ((i == -6) || (i == 5) || (j == -6) || (j == 5))
+			{
+				Matrix Mat, Mat2;
+				Mat.Init();
+				Mat.RotX(90);
+				Mat = Mat*LEVEL_SCALE;
+				Vec4 vecMin(-2.0f, -2.0f, 0, 1.f);
+				Vec4 vecMax(2.0f, 2.0f, -1.f, 1.f);
+				vecMin	= Mat*vecMin;
+				vecMax	= Mat*vecMax;
+
+				Vec4 vecPos(i*4.f,j*4.f,0.f, 1.f);
+				vecPos	= Mat*vecPos;
+				vecPos.SetW(1.f);
+				Mat2.Init();
+				Mat2.SetColumn(3, vecPos);
+				ASSERT(iCollBoxes<LEVEL_BOXES, "addiing too many boxes");
+				pCollBoxes[iCollBoxes] = Collision_CreateBox(&vecMax, &vecMin, &Mat2);
+
+				Level_GridIndexAddBox(&vecPos, pCollBoxes[iCollBoxes]);
+
+				iCollBoxes++;
+			}
+		}
+	}
 }

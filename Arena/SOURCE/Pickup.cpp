@@ -79,8 +79,8 @@ Pickup* Pickup_Create( Pickup_TYPES type, Vec3 vecPos)
 
 	Object_SetAllMatrix((Object *)pPickup, &Mat);
 
-	Vec3 vecMax(0.5f, 0.5f, 0.5f);
-	Vec3 vecMin(-0.5f, -0.5f, -0.5f);
+	Vec3 vecMax(0.6f, 0.6f, 0.6f);
+	Vec3 vecMin(-0.6f, -0.6f, -0.6f);
 	pPickup->pBox = Collision_CreateBox(&vecMax, &vecMin, &Mat);
 
 	return pPickup;
