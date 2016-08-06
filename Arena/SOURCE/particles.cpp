@@ -64,7 +64,7 @@ typedef struct _Particles
 
 static ParticleCreate *pDefs;
 static u32 iNumDefs;
-static i32 iNumEffects = 0;	// NIK
+static i32 iNumEffects = 0;	// NIK: keep track of how many particle effects are on at the same time
 
 //------------------------------------------------------------------
 
@@ -583,7 +583,7 @@ void Particles_Create( ParticleCreate *pCreate )
 
 void Particles_Create( i32 iID, Vec3 &vecPos )
 {
-	// NIK
+	// NIK: do not create a new effect if exceeded limit
 	if (iNumEffects < MAX_EFFECTS)
 		iNumEffects++;
 	else

@@ -28,7 +28,7 @@ void APIENTRY Car_Exit(Object *pObject)
 	Car *pCar=(Car *)pObject;
 
 	Mesh_Destroy(pCar->pModel);
-
+	Collision_DeleteBox(pCar->pBox);
 	Mem_Free(pCar);
 }
 
@@ -78,10 +78,10 @@ void APIENTRY Car_Update(Object *pObject)
 	Matrix *pmat;
 	Object_GetMatrix(pObject,&mat);
 	Object_GetMatrixPtr(pObject,&pmat);
-
+	
 	Vec3 vecVel(pCar->vecBounce + mat.GetColumn(2) * pCar->fSpeed);
-
 	pCar->vecBounce = pCar->vecBounce *0.5f;
+	
 	mat.RotY(pCar->fRot);
 	mat.SetColumn(3, vecVel + mat.GetColumn(3));
 
@@ -337,8 +337,6 @@ void Car_Fire(Car *pCar)
 //------------------------------------------------------------------
 
 // NIK: Ability to fire rockets
-// This could instead be done by modifying the Car_Fire function to take a projectile type
-// However, task does not specify how to handle ammo amount and rockets
 void Car_Fire_Rocket(Car *pCar)
 {
 	ASSERT(pCar->pObject.eType==OBJECT_Car, "not a valid car!");

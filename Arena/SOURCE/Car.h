@@ -27,8 +27,8 @@ typedef struct _CarValues
 	float fMass;
 	float fPower;
 	float fAccel;
-	i32 iNormalAmmo; // NIK: added ammo
-	i32 iRocketAmmo; // NIK: added ammo
+	i32 iNormalAmmo; // NIK: added normal ammo
+	i32 iRocketAmmo; // NIK: added rocket ammo
 }CarValues;
 
 typedef struct _Car
@@ -43,8 +43,8 @@ typedef struct _Car
 	float fAccel;
 	float fSpeed;
 	float fPower;
-	i32 iNormalAmmo; // NIK: added ammo
-	i32 iRocketAmmo; // NIK: added ammo
+	i32 iNormalAmmo; // NIK: added normal ammo
+	i32 iRocketAmmo; // NIK: added rocket ammo
 
 	float fRot;
 	float fRotInc;

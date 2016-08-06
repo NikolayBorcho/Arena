@@ -24,6 +24,7 @@ typedef struct _Pickup
 	// put stuff after here
 	Pickup_TYPES type;
 	Vec3	vecPos;
+	float fRotationAngle;
 
 	struct _ColBox *pBox;
 }Pickup;

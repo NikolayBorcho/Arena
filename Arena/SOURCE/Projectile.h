@@ -25,7 +25,7 @@ typedef struct _Projectile
 	Vec3	vecVel;
 	float	fLife;
 	struct _Trail *pTrails[2];
-	// NIK: explosion limit
+	// NIK: added explosion limit to avoid too many sprites
 	i32 iExplosions;
 
 	Object	*pCreator;

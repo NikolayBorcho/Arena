@@ -49,7 +49,7 @@ static bool	bLevelStarted = false;
 
 #define MAX_BOXES_GRID 40
 
-// NIK: pick ups
+// NIK: pick ups storage
 #include <vector>
 std::vector<Pickup*> stdvPickups;
 
@@ -254,7 +254,12 @@ void APIENTRY Level_Exit(Object *pObject)
 	iCollBoxes = 0;
 	iLamps = 0;
 
-	// NIK	?????
+	// NIK: Already cleared in Pickup class
+	/*for (Pickup* pPickup : stdvPickups)
+	{
+		Collision_DeleteBox(pPickup->pBox);
+	}*/
+	// NIK: Clear vector
 	stdvPickups.clear();
 
 	bLevelStarted = false;
@@ -838,12 +843,13 @@ bool Level_TestBoxCollide( ColBox *pBoxThis )
 
 //----------------------------------------------------------------------------------
 
-// NIK
+// NIK: Pickups have their own collision function
 enum Pickup_TYPES Level_TestPickupsCollide( _Car *pCarThis )
 {
 	if(!bLevelStarted)
 		return Pickup_NONE;
 
+	// iterate vector
 	for(std::vector<Pickup*>::iterator it=stdvPickups.begin(); it != stdvPickups.end(); ++it)
 	{
 		if(Collision_BoxBoxTest((*it)->pBox,pCarThis->pBox))
@@ -866,7 +872,7 @@ enum Pickup_TYPES Level_TestPickupsCollide( _Car *pCarThis )
 			return type;
 		}
 	}
-
+	
 	return Pickup_NONE;
 }
 
@@ -1263,10 +1269,10 @@ static void DrawRoad(u8 *cL,u8 *cR,u8 *cU,u8 *cD,float fX,float fY)
 	}
 
 	// NIK: Generate a Pickup
-	if (rand()%2 == 0)	// not on all roads
+	if (rand()%2 == 0)	// only on about half the roads
 	{
 		Vec3 vecPickupPos;
-		vecPickupPos.Set(fX*LEVEL_SCALE,1.0f,fY*LEVEL_SCALE);
+		vecPickupPos.Set(fX*LEVEL_SCALE,1.2f,fY*LEVEL_SCALE);
 		Pickup* pPickup;
 		if (rand()%2 == 0)	// approx half the pickups will be for one of the weapons
 		{
@@ -1664,7 +1670,7 @@ static void GenerateLevel(i32 iLevel)
 		}
 	}
 
-	// NIK:
+	// NIK: in order to not allow car to leave level
 	Level_AddLevelEdgesCols();
 
 	Level_GridIndexAddSurrounds();
@@ -1832,12 +1838,13 @@ static void GenerateLevel(i32 iLevel)
 void Level_AddLevelEdgesCols()
 {
 	// NIK: Add collision boxes around the edges of the level
-	for (int j = -6; j < 6; ++j)
+	for (int j = -6; j < 6; ++j)	// this particular level is enclosed between coordinates -6 and 6 on the map
 	{
 		for (int i = -6; i < 6; ++i)
 		{
-			if ((i == -6) || (i == 5) || (j == -6) || (j == 5))
+			if ((i == -6) || (i == 5) || (j == -6) || (j == 5))	// only edges
 			{
+				// create collisions boxes based on the house blocks
 				Matrix Mat, Mat2;
 				Mat.Init();
 				Mat.RotX(90);
@@ -1847,7 +1854,7 @@ void Level_AddLevelEdgesCols()
 				vecMin	= Mat*vecMin;
 				vecMax	= Mat*vecMax;
 
-				Vec4 vecPos(i*4.f,j*4.f,0.f, 1.f);
+				Vec4 vecPos(i*LEVEL_SCALE,j*LEVEL_SCALE,0.f, 1.f);
 				vecPos	= Mat*vecPos;
 				vecPos.SetW(1.f);
 				Mat2.Init();

@@ -17,7 +17,7 @@ static ColData thisColData;
 void APIENTRY Collision_Exit(Object *pObject)
 {
 	Collision *pCollision=(Collision *)pObject;
-
+	iBox = 0;	// NIK: do not allow to pile up over time with game restarts
 	Mem_Free(pCollision);
 }
 
