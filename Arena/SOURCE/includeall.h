@@ -25,7 +25,6 @@ u32 StringKey( const char *pString );
 #include "memory.h"
 #include <stdio.h>
 #ifdef _DEBUG
-
 extern struct _Font *pDebugFont;
 
 extern u32 uPolycount;

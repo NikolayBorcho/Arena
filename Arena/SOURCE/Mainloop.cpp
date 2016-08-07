@@ -286,7 +286,7 @@ void Mainloop_Pause( bool bPause )
 void Mainloop_RenderHUD()
 {
 	// NIK: Added display of current ammo in-game
-	SetFont(FONT_LEFT,pDebugFont);
-	PrintString(20.0f, 50.0f, 0xffffffff, 1.0f, "Normal Ammo: %i", pTestCar->pCar->iNormalAmmo);
-	PrintString(20.0f, 80.0f, 0xffffffff, 1.0f, "Rocket Ammo: %i", pTestCar->pCar->iRocketAmmo);
+	SetFont(FONT_LEFT,pMainFont);
+	PrintString(20.0f, 50.0f, 0xffffffff, 0.5f, "Normal Ammo %i", pTestCar->pCar->iNormalAmmo);
+	PrintString(20.0f, 80.0f, 0xffffffff, 0.5f, "Rocket Ammo %i", pTestCar->pCar->iRocketAmmo);
 }
